@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>API.FDB</title>
+
+</head>
+<body>
+    <div class="card">
+  <input
+    class="blind-check"
+    type="checkbox"
+    id="blind-input"
+    name="blindcheck"
+    hidden
+  />
+
+  <form class="form" onsubmit="comparar(); return false;">
+
+
+    <label class="label_input" for="banco_principal">Banco Principal</label>
+    <input
+      class="input"
+      type="text"
+      id="banco_principal"
+      placeholder="Caminho do banco"
+    />
+
+    <label class="label_input" for="banco_espelho">Banco Espelho</label>
+    <input
+      class="input"
+      type="text"
+      id="banco_espelho"
+      placeholder="Caminho do banco"
+    />
+
+    <label class="label_input" for="usuario">Usuário</label>
+    <input
+      class="input"
+      type="text"
+      id="usuario"
+      value="SYSDBA"
+    />
+
+    <label class="label_input" for="senha">Senha</label>
+    <input
+      class="input"
+      type="password"
+      id="senha"
+      value="MASTERKEY"
+    />
+
+    <button class="submit" type="submit">Comparar</button>
+  </form>
+
+<label for="blind-input" class="avatar">
+    <img src="{{ url_for('static', filename='fbfbfb.jpg') }}" alt="Logo" class="logo-img">
+</label>
+</div>
+    <script src="{{ url_for('static', filename='compare.js') }}"></script>
+</body>
+</html>
