@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify, render_template
 import os
 import fdb
+
 from sql import gerar_alter_table
 
 #Criado e refatorado por Luiz macedo
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
 
 def get_db_structure(db_path, user, password):
@@ -59,13 +60,27 @@ def index():
 @app.route('/comparar', methods=['POST'])
 def comparar():
     try:
-        data = request.json
-        app.logger.info('Dados recebidos: %s', data)
-        estrutura_principal = get_db_structure(data["banco_principal"], data["usuario"], data["senha"])
-        estrutura_espelho = get_db_structure(data["banco_espelho"], data["usuario"], data["senha"])
+        usuario = request.form.get('usuario')
+        senha = request.form.get('senha')
+
+        banco_principal_file = request.files['banco_principal']
+        banco_espelho_file = request.files['banco_espelho']
+
+        save_dir = os.path.join(BASE_DIR, 'bancos')
+        os.makedirs(save_dir, exist_ok=True)
+
+        banco_principal_path = os.path.join(save_dir, banco_principal_file.filename)
+        banco_espelho_path = os.path.join(save_dir, banco_espelho_file.filename)
+
+        banco_principal_file.save(banco_principal_path)
+        banco_espelho_file.save(banco_espelho_path)
+
+        estrutura_principal = get_db_structure(banco_principal_path, usuario, senha)
+        estrutura_espelho = get_db_structure(banco_espelho_path, usuario, senha)
         alter_commands = gerar_alter_table(estrutura_principal, estrutura_espelho)
-        app.logger.info('Comandos gerados: %s', alter_commands)
+
         return jsonify({"status": "success", "alter_table": alter_commands})
+
     except Exception as e:
         app.logger.error('Erro no /comparar: %s', str(e))
         return jsonify({"status": "error", "message": str(e)}), 500

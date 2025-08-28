@@ -1,0 +1,19 @@
+# Arquivos de banco de dados 
+*.fdb
+*.FDB
+*.db
+*.sqlite
+
+# Arquivos de configuração sensíveis
+.env
+
+# Cache e arquivos temporários
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# Arquivos do VSCode
+.vscode/
