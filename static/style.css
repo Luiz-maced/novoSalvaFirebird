@@ -2,8 +2,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* ocupa 100% da altura da tela */
-    background-color: #f0f0f0; /* opcional, cor de fundo */
+    min-height: 100vh;
+    background-color: #f0f0f0;
     margin: 0;
 }
 
@@ -183,13 +183,11 @@ body {
   border: 1px solid rgba(22, 22, 22, 0.2);
   color: #111;
 }
-
 .blind-check:checked ~ .form .input[type="text"] {
-  /* text-emphasis: circle; */
   -webkit-text-security: disc;
 }
 .logo-img {
-    width: 80px;  /* ajuste conforme precisar */
+    width: 80px;
     height: auto;
     cursor: pointer;
 }
