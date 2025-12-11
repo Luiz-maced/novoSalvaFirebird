@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import os
 import fdb
-
 from sql import gerar_alter_table
-
 #Criado e refatorado por Luiz macedo
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
@@ -43,7 +41,6 @@ def get_db_structure(db_path, user, password):
             if tabela not in estrutura:
                 estrutura[tabela] = {}
             estrutura[tabela][coluna] = (tipo, tamanho)
-
         conn.close()
         return estrutura
     except fdb.OperationalError as e:
@@ -56,25 +53,19 @@ def get_db_structure(db_path, user, password):
 def index():
     return render_template('formulario.html')
 
-
 @app.route('/comparar', methods=['POST'])
 def comparar():
     try:
         usuario = request.form.get('usuario')
         senha = request.form.get('senha')
-
         banco_principal_file = request.files['banco_principal']
         banco_espelho_file = request.files['banco_espelho']
-
         save_dir = os.path.join(BASE_DIR, 'bancos')
         os.makedirs(save_dir, exist_ok=True)
-
         banco_principal_path = os.path.join(save_dir, banco_principal_file.filename)
         banco_espelho_path = os.path.join(save_dir, banco_espelho_file.filename)
-
         banco_principal_file.save(banco_principal_path)
         banco_espelho_file.save(banco_espelho_path)
-
         estrutura_principal = get_db_structure(banco_principal_path, usuario, senha)
         estrutura_espelho = get_db_structure(banco_espelho_path, usuario, senha)
         alter_commands = gerar_alter_table(estrutura_principal, estrutura_espelho)
@@ -86,4 +77,4 @@ def comparar():
         return jsonify({"status": "error", "message": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True) 
+    app.run(host='0.0.0.0', port=5000, debug=False) 
