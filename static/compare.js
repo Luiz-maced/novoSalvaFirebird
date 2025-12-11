@@ -1,12 +1,9 @@
 let arquivoPrincipal = null;
 let arquivoEspelho = null;
-
 function initDrop(dropId, inputId, callback) {
     const dropzone = document.getElementById(dropId);
     const fileInput = document.getElementById(inputId);
-
     dropzone.addEventListener('click', () => fileInput.click());
-
     fileInput.addEventListener('change', () => {
         if (fileInput.files.length > 0) {
             const file = fileInput.files[0];
@@ -14,16 +11,13 @@ function initDrop(dropId, inputId, callback) {
             callback(file);
         }
     });
-
     dropzone.addEventListener('dragover', (e) => {
         e.preventDefault();
         dropzone.classList.add('over');
     });
-
     dropzone.addEventListener('dragleave', () => {
         dropzone.classList.remove('over');
     });
-
     dropzone.addEventListener('drop', (e) => {
         e.preventDefault();
         dropzone.classList.remove('over');
@@ -35,16 +29,13 @@ function initDrop(dropId, inputId, callback) {
         }
     });
 }
-
 initDrop('drop_principal', 'file_principal', (file) => arquivoPrincipal = file);
 initDrop('drop_espelho', 'file_espelho', (file) => arquivoEspelho = file);
-
 function comparar() {
     if (!arquivoPrincipal || !arquivoEspelho) {
         alert("Por favor, selecione os dois arquivos antes de comparar.");
         return;
     }
-
     const usuario = document.getElementById('usuario').value;
     const senha = document.getElementById('senha').value;
 
@@ -57,7 +48,7 @@ function comparar() {
     const xhr = new XMLHttpRequest();
     const btn = document.querySelector('.submit');
 
-    // Criar barra de progresso
+    // Criar barra de progresso, bem hardcoded msm, da nada
     let progressBar = document.createElement('progress');
     progressBar.value = 0;
     progressBar.max = 100;
